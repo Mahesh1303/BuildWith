@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 
 import { Prisma } from "../db";
+import { signtoken } from "../utils/jwt";
 
-const handleCreateUser = async (req: Request, res: Response) => {
+export const handleUserSignup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
@@ -48,5 +49,44 @@ const handleCreateUser = async (req: Request, res: Response) => {
   }
 };
 
+export const handleUserSignin = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-export default handleCreateUser;
+  try {
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Fields are missing ",
+      });
+    }
+
+    const userExist = await Prisma.user.findUnique({
+      where: {
+        email,
+        password
+      }
+    });
+
+    if (!userExist) {
+      return res.status(400).json({
+        message: "user Doesnt exist",
+      });
+    }
+
+    const token = signtoken(userExist)
+
+    res.status(200).json({
+      message: "User created Successfully",
+      data:{
+        ssid: token
+      }
+      
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "unable to login user"
+    })
+  }
+};
+
+
+

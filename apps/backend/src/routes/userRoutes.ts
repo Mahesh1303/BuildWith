@@ -1,7 +1,8 @@
 import { Router } from "express";
-import handleCreateUser from "../controllers/userControllers";
+import { handleUserSignin, handleUserSignup } from "../controllers/userControllers";
 
 export const UserRouter : Router = Router();
 
-UserRouter.post("/user/signup", handleCreateUser as any);
+UserRouter.post("/user/signup", handleUserSignup as any);
+UserRouter.get("/user/signin",handleUserSignin as any)
 
