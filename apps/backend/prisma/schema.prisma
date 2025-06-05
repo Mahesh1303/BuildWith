@@ -78,7 +78,8 @@ model Like {
   post    Post @relation(fields: [postId], references: [post_id])
 
 
-  @@unique([postId, userId])
+ @@unique([postId, userId], name: "postId_userId")
+
   @@index([postId])
   @@index([userId])
 }
