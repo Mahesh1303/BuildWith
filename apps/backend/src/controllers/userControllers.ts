@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import { Prisma } from "../db";
 import { signtoken } from "../utils/jwt";
+import { hashPass, verifyPass } from "../utils/manage.password";
 
 export const handleUserSignup = async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -27,12 +28,18 @@ export const handleUserSignup = async (req: Request, res: Response) => {
         message: "User With this Email Already exist",
       });
     }
+    const hashPwd = await hashPass(password);
+    if (!hashPwd) {
+      return res.status(400).json({
+        message: "unable to save password User signup failed",
+      });
+    }
 
     const newUser = await Prisma.user.create({
       data: {
         username,
         email,
-        password,
+        password: String(hashPwd),
       },
     });
 
@@ -45,9 +52,14 @@ export const handleUserSignup = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({
       message: "Unable to create USer ",
+      data:{
+        error: error
+      }
     });
   }
 };
+
+
 
 export const handleUserSignin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -62,8 +74,7 @@ export const handleUserSignin = async (req: Request, res: Response) => {
     const userExist = await Prisma.user.findUnique({
       where: {
         email,
-        password
-      }
+      },
     });
 
     if (!userExist) {
@@ -72,21 +83,37 @@ export const handleUserSignin = async (req: Request, res: Response) => {
       });
     }
 
-    const token = signtoken(userExist)
+    if (!userExist.password) {
+      return res.status(400).json({
+        message: "No password exist for the user ",
+      });
+    }
+
+    const passcheck = await verifyPass(password, userExist.password);
+    if (!passcheck) {
+      return res.status(400).json({
+        message: "invalid user ",
+      });
+    }
+
+    const token = signtoken(userExist);
 
     res.status(200).json({
-      message: "User created Successfully",
-      data:{
-        ssid: token
-      }
-      
+      message: "User Logged in  Successfully",
+      data: {
+        ssid: token,
+      },
     });
   } catch (error) {
     return res.status(500).json({
-      message: "unable to login user"
-    })
+      message: "unable to login user",
+      data:{
+        error: error
+      }
+    });
   }
 };
+
 
 
 
