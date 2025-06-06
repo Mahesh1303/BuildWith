@@ -1,4 +1,4 @@
-import { json, Request, Response } from "express";
+import { Request, Response } from "express";
 import { Prisma } from "../db";
 
 export const handleCreatePost = async (req: Request, res: Response) => {
@@ -37,8 +37,6 @@ export const handleCreatePost = async (req: Request, res: Response) => {
     });
   }
 };
-
-
 
 export const handleLikePost = async (req: Request, res: Response) => {
   const { postId, userId } = req.body;
@@ -82,6 +80,50 @@ export const handleLikePost = async (req: Request, res: Response) => {
     return res.status(500).json({
       message: "Internal server error",
       error: error instanceof Error ? error.message : String(error),
+    });
+  }
+};
+
+export const handleDeletePost = async (req: Request, res: Response) => {
+  const { userId, postId } = req.body;
+
+  try {
+    if (!userId || !postId) {
+      return res.status(400).json({
+        message: "Invalid Credentials",
+      });
+    }
+
+    const deltepost = await Prisma.post.findFirst({
+      where: {
+        post_id: postId,
+        authorId: userId,
+      },
+    });
+
+    if (!deltepost) {
+      return res.status(400).json({
+        message: "No post available for the user",
+      });
+    }
+    await Prisma.post.delete({
+      where: {
+        post_id: postId,
+        authorId: userId,
+      },
+    });
+    return res.status(200).json({
+      message: "Post deleted Successfully",
+      data: {
+        payload: postId,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: "Unable to delete the post ",
+      error: {
+        error: error,
+      },
     });
   }
 };
