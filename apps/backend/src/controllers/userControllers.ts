@@ -189,3 +189,29 @@ export const handleFollowUser = async (req: Request, res: Response) => {
     });
   }
 };
+
+interface AuthRequest extends Request {
+  user?: { id: number };
+}
+
+export const handleUserBio = async (req: AuthRequest, res: Response) => {
+  const user = req.user?.id;
+  const { bio, avatarUrl } = req.body;
+
+  try {
+    await Prisma.profile.update({
+      where: { userId: user },
+      data: { bio, avatarUrl },
+    });
+    return res.status(200).json({
+      message: "Profile Updated Successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to create Profile",
+      error: {
+        error: error,
+      },
+    });
+  }
+};
