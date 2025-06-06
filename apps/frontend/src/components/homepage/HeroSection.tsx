@@ -1,5 +1,6 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
+import FeatureGrid from "./FeatureGrid";
 
 const HeroSection = () => {
   const { scrollYProgress } = useScroll();
@@ -8,13 +9,13 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen mb-5 ">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-br from-gray-50 to-white rounded-full animate-spin-slow" />
+        <div className="absolute  w-[250%] h-[200%] bg-gradient-to-br from-gray-50 to-white rounded-full animate-spin-slow" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pb-24 mt-6">
-        <div className="relative min-h-[200px] grid grid-cols-1 sm:grid-cols-3 grid-rows-[auto] sm:grid-rows-3 gap-8 sm:gap-0.5">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16  sm:pb-24 mt-6 ">
+        <div className="relative min-h-[200px] grid grid-cols-1 sm:grid-cols-3 grid-rows-[auto] sm:grid-rows-3 gap-8 sm:gap-0.5 ">
           {/* Top Left Image */}
           <motion.div
             initial={{ opacity: 0, x: -40, y: -40 }}
@@ -131,22 +132,12 @@ const HeroSection = () => {
             </div>
           </motion.div>
         </div>
+        <div className="relative min-h-[300px] pt-20 sm:gap-0 ">
+          <FeatureGrid />
+        </div>
       </div>
 
       {/* Curved Divider */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 md:h-64 overflow-hidden">
-        <svg
-          className="absolute bottom-0 left-0 w-full h-full"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#f1f5f9"
-            fillOpacity="1"
-            d="M0,224L60,213.3C120,203,240,181,360,181.3C480,181,600,203,720,213.3C840,224,960,224,1080,208C1200,192,1320,160,1380,144L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-          ></path>
-        </svg>
-      </div>
     </div>
   );
 };

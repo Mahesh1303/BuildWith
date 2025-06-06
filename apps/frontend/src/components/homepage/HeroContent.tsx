@@ -24,7 +24,8 @@ const HeroContent = () => {
   ];
 
   return (
-    <section className="relative pt-20 pb-32 overflow-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50">
+    <section className="relative pt-24 mt-3 pb-32 overflow-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50">
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-600 to-orange-800"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="px-4 sm:px-6 lg:px-8 xl:px-12 mx-auto max-w-7xl relative">
         <div className="grid max-w-md grid-cols-1 mx-auto lg:grid-cols-12 gap-x-12 lg:gap-x-20 gap-y-16 lg:max-w-none">
@@ -74,7 +75,7 @@ const HeroContent = () => {
                 className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 role="button"
               >
-                Join Our Community
+                Connect with BuildWith
               </a>
               <a
                 href="#"
