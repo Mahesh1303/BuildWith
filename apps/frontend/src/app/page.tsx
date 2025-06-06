@@ -26,9 +26,9 @@ export default function Home() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-orange-600 to-red-500 font-cursive italic">
                 Our Platform
               </span>
-              <HeroSection />
             </motion.h2>
-            <FeatureGrid />
+
+            <HeroSection />
             <div className="h-16"></div>
           </div>
           {/* Curved Divider */}

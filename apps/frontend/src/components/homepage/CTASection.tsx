@@ -35,14 +35,7 @@ const CTASection = () => {
             >
               Create Account
             </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="px-8 py-3.5 bg-slate-800 text-white rounded-lg text-lg font-medium hover:bg-slate-700 transition-all"
-            >
-              Contact Sales
-            </motion.button>
+           
           </div>
         </motion.div>
       </div>

@@ -27,7 +27,7 @@ const FeatureGrid = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-4 px-2 sm:px-4 lg:px-8 max-w-7xl mx-auto">
       {features.map((feature, index) => (
         <motion.div
           key={index}
@@ -40,7 +40,7 @@ const FeatureGrid = () => {
           }}
           viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           whileHover={{ y: -8, scale: 1.02 }}
-          className="group relative overflow-hidden rounded-3xl shadow-xl bg-white transition-all duration-300 hover:shadow-2xl mx-2 sm:mx-4"
+          className="group relative overflow-hidden rounded-3xl shadow-xl bg-white transition-all duration-300 hover:shadow-2xl mx-1 sm:mx-4"
         >
           <div className="relative aspect-[4/3] overflow-hidden">
             <img
