@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { Prisma } from "../db";
 
+interface IUser {
+  _id: String;
+}
+
 export const handleCreatePost = async (req: Request, res: Response) => {
   const { user_id, content, media } = req.body;
 
@@ -124,6 +128,38 @@ export const handleDeletePost = async (req: Request, res: Response) => {
       error: {
         error: error,
       },
+    });
+  }
+};
+
+export const handleGetPost = async (req: Request, res: Response) => {
+  try {
+    const posts = await Prisma.post.findMany({
+      include: {
+        author: {
+          select: {
+            user_id: true,
+            username: true,
+            profile: {
+              select: {
+                avatarUrl: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: "Post fetched Successfully",
+      data: {
+        data: posts,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to fetch posts",
+      error: error,
     });
   }
 };
