@@ -215,3 +215,36 @@ export const handleUserBio = async (req: AuthRequest, res: Response) => {
     });
   }
 };
+
+export const handleGetUserLists = async (req: Request, res: Response) => {
+  const { name } = req.params;
+  try {
+    const users = await Prisma.user.findMany({
+      where: {
+        username: {
+          contains: name,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        user_id: true,
+        username: true,
+        profile: {
+          select: {
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: "Users Fetched Successfully",
+      data: users,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Unable to find the users",
+      error: error,
+    });
+  }
+};
